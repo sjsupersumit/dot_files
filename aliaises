@@ -1,0 +1,75 @@
+alias odin="ssh -L 2009:localhost:2009 sumijh.corp.amazon.com -f -N"
+git-contri () {
+git log --format='%aN' | sort -u | while read name; do echo -en "$name\t"; git log --author="$name" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc }' -; done
+}
+alias brazil=/Users/sumijh/.toolbox/bin/brazil
+alias grep=ggrep
+alias rm=trash
+alias j=jump
+alias tail-bbs='/apollo/env/envImprovement/bin/rotail `brazil-path package-build-root`/private/var/output/logs/application.log';
+alias rd=rmdir
+alias rdk='ssh -t sumijh.corp.amazon.com '\''exec source ~/.zshrc; exec /bin/zsh; exec set -o emacs; exec scp ~/.midway/cookie sumijh.corp.amazon.com:/home/sumijh/.midway/;'\'
+alias model=' cd  ../$(echo $(pwd | rev | cut -d '/' -f1 | rev)"Model")'
+rdk1 () {
+ssh -t sumijh1.corp.amazon.com '\''exec source ~/.zshrc; exec /bin/zsh; exec set -o emacs; if [[ "$(klist | awk {'print $1" "$2'} | tail -n 1)" < "$(date '+%D %T')" ]]; echo "yay"; fi;'\
+
+
+}
+alias cpvoice='scp -o ProxyCommand="ssh -A lilyvoiceservice.bastion.beta.connect-telecom-gamma.us-west-2.amazonaws.com nc 10.1.1.161 22" build/lib/TelephonyVoiceService-2.0.jar 10.1.1.161:/tmp/lvs.jar'
+alias ts='tmux new -s work'
+alias h=howdoi
+
+
+
+
+alias run-help=man
+alias screen=/usr/local/bin/screen
+alias showfiles='defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder'
+alias vi=vim
+alias bb=brazil-build
+alias bba='brazil-build apollo-pkg'
+alias bball='brc --allPackages'
+alias bbb='brc --allPackages brazil-build'
+alias bbr='brc brazil-build'
+alias bbra='bbr apollo-pkg'
+alias brc=brazil-recursive-cmd
+alias bre=brazil-runtime-exec
+alias bws='brazil ws'
+alias bwscreate='bws create -n'
+alias bwsuse='bws use --gitMode -p'
+alias d='dirs -v | head -10'
+alias 4008='ssh -o ProxyCommand=none -T -N -L 4008:localhost:4008 sumijh.corp.amazon.com'
+alias wallpaper='python ~/Documents/personal/MacBingWallpaper/src/BingWallpaperOfDay.py'
+#Git Aliases
+alias gs='git status'
+alias gc='git checkout'
+
+alias gdrive=skicka
+remote () {
+ssh sumijh.corp.amazon.com $@
+}
+
+alias restartLAMS='sudo kill -9 `ps augx | grep LilyAgentManagement | grep application-config.xml | awk '{print $2}'`'
+
+#Util Functions
+sync () {
+        curr_dir=$(pwd)
+        cd /Users/sumijh/Documents/workspace
+        nohup ninja-dev-sync &
+        cd $curr_dir
+}
+
+mconfig () {
+if [ -f ~/.ssh/config ]; then
+echo "Ready for Devo, moving config to backup"
+mv ~/.ssh/config ~/.ssh/config.bak
+else
+echo "Ready for prod, moving backup to config"
+mv ~/.ssh/config.bak ~/.ssh/config
+fi
+}
+alias ls='ls -lah'
+alias ctags="`brew --prefix`/bin/ctags"
+alias gti=git
+alias voicedevold='ssh -A -tt lilyvoiceservice.bastion.beta.connect-telecom-gamma.us-west-2.amazonaws.com ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -A -tt 10.1.1.161' 
+alias voicedev='ssh -A -tt lilyvoiceservice.bastion.beta.connect-telecom-gamma.us-west-2.amazonaws.com ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -A -tt 10.1.1.215'

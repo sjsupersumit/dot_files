@@ -3,6 +3,9 @@ execute pathogen#infect()
 nnoremap <F1> :NERDTreeToggle<CR>
 inoremap <F1> :NERDTreeToggle<CR>
 
+" YCM default config
+let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
+
 "Window movement mapping
 nnoremap <C-k> <C-w>k
 nnoremap <C-j> <C-w>j
@@ -12,8 +15,8 @@ set splitbelow
 set splitright
 
 "Map buffer to space
-nnoremap <Leader><Space> :bn<CR>
-nnoremap <C-Space> :bp<CR>
+nnoremap <Leader>n :bn<CR>
+nnoremap <Leader>p :bp<CR>
 
 set nocompatible "Turn off compatibility mode
 set mouse=n
@@ -28,9 +31,11 @@ set ttimeout ttimeoutlen=0
 "source /apollo/env/envImprovement/var/vimrc
 set runtimepath^=~/.vim/bundle/gundo.vim
 set runtimepath^=~/.vim/bundle/ctrlp.vim
-set runtimepath^=/usr/local/opt/fzf
+set runtimepath^=/usr/local/bin/fzf
 set runtimepath^=~/.vim/bundle/vim-markdown-master
 set runtimepath^=~/.vim/bundle/fzf.vim
+set runtimepath^=~/.vim/bundle/ag
+let g:ag_working_path_mode="r"
 " Enable filetype plugin
 filetype plugin on
 filetype indent on
@@ -41,7 +46,7 @@ let g:mapleader = ","
 
 " VIM UI ReLATED CHANGES
 set t_Co=256
-set wildmenu
+set wildchar=<TAB> wildmenu wildmode=full
 set wildignore=*.o,*~,*.pyc,*.class,*.DS_STORE
 "Always show current position
 set ruler
