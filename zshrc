@@ -1,15 +1,24 @@
 set -o noclobber
 source ~/.aliases
-#source ~/Documents/create-gk-aliases.sh  
 export PATH=~/.toolbox/bin:$PATH
 export PATH=~/.local/bin:$PATH
 export PATH=$(brew --prefix ruby)/bin:$PATH
-export PATH=$PATH:$HOME/.odin-tools/env/OdinRetrievalScript-1.0/runtime/bin
 export PATH=/usr/local/opt/grep/libexec/gnubin:$PATH
 export PATH=$PATH:$HOME/go/bin
+export PATH=$PATH:/Applications/Postgres.app/Contents/Versions/14/bin/psql
+export PATH=/usr/local/bin/:$PATH
 export EDITOR=/usr/local/bin/vim
+
+
 setopt auto_cd
-cdpath=($HOME/Documents $HOME/Downloads $HOME/Desktop $HOME/Documents/workspace)   
+cdpath=($HOME/Documents $HOME/Downloads $HOME/Desktop $HOME/workspace)   
+
+#edit comand in $EDITOR aka vim
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey '^x^e' edit-command-line
+bindkey '^xe' edit-command-line
+
 
 # tmux home dir
 export TMUX_TMPDIR=~/tmux_tmp
@@ -27,10 +36,10 @@ fpath=(~/.zsh/completion $fpath)
 autoload -Uz compinit && compinit -i
 
 #for pyenv
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+#eval "$(pyenv init -)"
+#eval "$(pyenv virtualenv-init -)"
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/sumijh/.oh-my-zsh
+export ZSH=/Users/sjha/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -79,7 +88,7 @@ ENABLE_CORRECTION="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git osx jump zsh-syntax-highlighting)
+plugins=(z git osx jump zsh-syntax-highlighting zsh-autosuggestions) 
 
 source $ZSH/oh-my-zsh.sh
 
@@ -122,6 +131,23 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_COMPLETION_TRIGGER='**'
 export GOPATH=$HOME/go
-export GOROOT=/usr/local/Cellar/go/1.17.2/libexec/
+export GOROOT=/usr/local/Cellar/go/1.19/libexec/
 export PATH=$PATH:$GOROOT/bin
 export PATH="/usr/local/sbin:$PATH"
+
+export NVM_DIR="/Users/sjha/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/local/bin/terraform terraform
+export EDITOR=/usr/bin/vim
+eval "$(pyenv init -)"
+
+export VAULT_ADDR=https://vault.sandbox.k8s.centrio.com:8200
+
+function vault_token() {
+    CLIENT_ID=`cat ~/.deployinator_api_key  | jq -r '."Client-Id"'`
+    CLIENT_SECRET=`cat ~/.deployinator_api_key  | jq -r '."Client-Secret"'`
+    export VAULT_TOKEN=`curl -X POST https://deployinator.sandbox.k8s.centrio.com/api/vault.tokens -H "Client-Id: ${CLIENT_ID}" -H "Client-Secret: ${CLIENT_SECRET}" | jq -r '.token'`
+}
+

@@ -1,0 +1,42 @@
+git-contri () {
+git log --format='%aN' | sort -u | while read name; do echo -en "$name\t"; git log --author="$name" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc }' -; done
+}
+alias grep=ggrep
+alias rm=trash
+alias j=jump
+alias rd=rmdir
+alias ts='tmux new -s work'
+alias h=howdoi
+alias showfiles='defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder'
+alias vi=vim
+alias d='dirs -v | head -10'
+#Git Aliases
+alias gs='git status'
+alias gc='git checkout'
+
+#Util Functions
+alias ctags="`brew --prefix`/bin/ctags"
+alias gti=git
+
+## Aws creds 
+alias blendlabs='aws-vault exec blendlabs --duration 8h'
+alias sec-lending-dev='aws-vault exec sec-lending-dev --duration 12h'
+
+#vault --for envelope service
+
+function vault_k8s() {
+  VAULT_ADDR=https://vault.sandbox.k8s.centrio.com:8200 VAULT_TOKEN=$(cat ~/.vault-token-k8s) vault $@
+}
+
+function docmongo() {
+mongo --host mongodb-shared-02.sandbox.centrio.com:27017 \
+-u documents -p '6Hy%Em]$z57XNZfE%Y6h' \
+--authenticationDatabase admin \
+--ssl \
+--sslCAFile ~/workspace/mongo_cert.text \
+--sslAllowInvalidHostnames \
+--sslAllowInvalidCertificates \
+}
+
+alias start-lending=/Users/sjha/local-lending.sh
+alias start-ds='~/local-ds.sh'
